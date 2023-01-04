@@ -55,8 +55,9 @@ enable_lip = true;
 // determine what the variable "gridz" applies to based on your use case
 gridz_define = 0; // [0:gridz is the height of bins in units of 7mm increments - Zack's method,1:gridz is the internal height in millimeters, 2:gridz is the overall external height of the bin in millimeters]
 // the type of tabs
-style_tab = 2; //[0:Full,1:Auto,2:Left,3:Center,4:Right,5:None]
-
+style_tab = 0; //[0:Full,1:Auto,2:Left,3:Center,4:Right,5:None]
+tab_text = "M4X60";
+    
 // overrides internal block height of bin (for solid containers). Leave zero for default height. Units: mm
 height_internal = 0; 
 
@@ -67,9 +68,15 @@ div_base_x = 0;
 // number of divisions per 1 unit of base along the Y axis. (default 1, only use integers. 0 means automatically guess the right division)
 div_base_y = 0; 
 
-translate([(-gridx+1)/2*length,(gridy-1)/2*length+12,gridz*7])
-    linear_extrude(height = .5) {
-    text("M4x12SL", font = "Arial:style=Narrow Bold", size = 6, halign= "center", valign= "center", direction = "ltr", spacing = 1, $fn=50 );}
+// =======Label Code dev========//;
+
+textpos = style_tab == 1 ? -gridx+1:(
+    style_tab == 2 ? -gridx+1:(
+        style_tab == 4 ? +gridx-1:0));
+
+translate([(textpos)/2*length,(gridy-1)/2*length+12,gridz*7])
+    linear_extrude(height = 1) {
+    text(tab_text, font = "Arial:style=Narrow Bold", size = 6, halign= "center", valign= "center", direction = "ltr", spacing = 1, $fn=50 );}
 
 
 // ===== IMPLEMENTATION ===== //
